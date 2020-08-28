@@ -3,7 +3,13 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                bat 'set'
+            timeout(time: 3) {
+                sh 'echo "Hello World"'
+                sh '''
+                echo "Multiline shell steps works too"
+                ls -lah
+                '''
+                }
             }
         }
     }
