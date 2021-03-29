@@ -1,20 +1,28 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('No-op') {
             steps {
-                echo 'Building'
+                sh 'ls'
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Testing'
-            }
+    }
+    post {
+        always {
+            echo 'One way or another, I have finished'
+            deleteDir() /* clean up our workspace */
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying Testing'
-            }
+        success {
+            echo 'I succeeeded!'
+        }
+        unstable {
+            echo 'I am unstable :/'
+        }
+        failure {
+            echo 'I failed :('
+        }
+        changed {
+            echo 'Things were different before...'
         }
     }
 }
